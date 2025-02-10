@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SearchBar from './components/SearchBar/SearchBar';
 import getImages from './services/api'
 import './App.css'
+import ImageGallery from './components/ImageGallery/ImageGallery';
+
 
 // import axios from "axios";
 
@@ -16,11 +18,32 @@ function App() {
   const [selectImage, setSelectImage] = useState(0);
 
 
+  useEffect(() => {
+    if (!query) return;
+    const getData = async () => {
+      try {
+        setError(false);
+        const data = await getImages(query, page);
+        setImage(prev => [...prev, ...data.results]);
+        setTotalPage(data.total_pages);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getData();
+  }, [query, page]);
 
+  const handleSetQuery = searchValue => {
+    setQuery(searchValue);
+    setImage([]);
+    setPage(1);
+  };
 
   return (
     <>
-      <SearchBar />
+      <SearchBar setQuery={handleSetQuery}/>
+      <ImageGallery images={image} />
     </>
   )
 }
