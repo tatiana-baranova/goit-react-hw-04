@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import SearchBar from './components/SearchBar/SearchBar';
 import getImages from './services/api'
+import Loader from './components/Loader/Loader';
 import './App.css'
 import ImageGallery from './components/ImageGallery/ImageGallery';
 
@@ -23,12 +24,15 @@ function App() {
     const getData = async () => {
       try {
         setError(false);
+        setLoading(true);
         const data = await getImages(query, page);
         setImage(prev => [...prev, ...data.results]);
         setTotalPage(data.total_pages);
         console.log(data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     getData();
@@ -44,6 +48,7 @@ function App() {
     <>
       <SearchBar setQuery={handleSetQuery}/>
       <ImageGallery images={image} />
+      {loading && <Loader/>}
     </>
   )
 }
