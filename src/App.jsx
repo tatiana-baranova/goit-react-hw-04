@@ -5,6 +5,7 @@ import Loader from './components/Loader/Loader';
 import './App.css'
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
+import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 
 
 // import axios from "axios";
@@ -45,12 +46,18 @@ function App() {
     setPage(1);
   };
 
+  const handleChangePage = () => {
+    setPage(prev => prev + 1);
+  }
   return (
     <>
       <SearchBar setQuery={handleSetQuery} />
       {error && <ErrorMessage/>}
       <ImageGallery images={image} />
-      {loading && <Loader/>}
+      {loading && <Loader />}
+      {image.length > 0 && page < totalPage && (
+        <LoadMoreBtn changePage={handleChangePage}/>
+      )}
     </>
   )
 }
