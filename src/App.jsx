@@ -4,6 +4,7 @@ import getImages from './services/api'
 import Loader from './components/Loader/Loader';
 import './App.css'
 import ImageGallery from './components/ImageGallery/ImageGallery';
+import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 
 
 // import axios from "axios";
@@ -29,8 +30,8 @@ function App() {
         setImage(prev => [...prev, ...data.results]);
         setTotalPage(data.total_pages);
         console.log(data);
-      } catch (error) {
-        console.log(error);
+      } catch {
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -46,7 +47,8 @@ function App() {
 
   return (
     <>
-      <SearchBar setQuery={handleSetQuery}/>
+      <SearchBar setQuery={handleSetQuery} />
+      {error && <ErrorMessage/>}
       <ImageGallery images={image} />
       {loading && <Loader/>}
     </>
