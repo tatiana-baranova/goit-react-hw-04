@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react'
 import SearchBar from './components/SearchBar/SearchBar';
 import getImages from './services/api'
 import Loader from './components/Loader/Loader';
-import './App.css'
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import { Toaster } from 'react-hot-toast';
-
-
-// import axios from "axios";
+import './App.css'
+import ImageModal from './components/ImageModal/ImageModal';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -19,8 +17,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [totalPage, setTotalPage] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectImage, setSelectImage] = useState(0);
-
+  const [selectImage, setSelectImage] = useState(null);
 
   useEffect(() => {
     if (!query) return;
@@ -41,6 +38,8 @@ function App() {
     getData();
   }, [query, page]);
 
+  
+
   const handleSetQuery = searchValue => {
     setQuery(searchValue);
     setImage([]);
@@ -50,16 +49,31 @@ function App() {
   const handleChangePage = () => {
     setPage(prev => prev + 1);
   }
+
+  const openModal = () => {
+    setSelectImage(selectImage);
+    setModalIsOpen(true);
+  }
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  }
+
   return (
     <>
       <SearchBar setQuery={handleSetQuery} />
       <Toaster position="bottom-right"/>
       {error && <ErrorMessage/>}
-      <ImageGallery images={image} />
+      <ImageGallery images={image} openModal={openModal}/>
       {loading && <Loader />}
       {image.length > 0 && page < totalPage && (
         <LoadMoreBtn changePage={handleChangePage}/>
       )}
+      <ImageModal
+        isOpen={modalIsOpen}
+        closeModal={closeModal}
+        image={image}
+      />
     </>
   )
 }
