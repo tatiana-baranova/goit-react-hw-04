@@ -50,7 +50,7 @@ function App() {
     setPage(prev => prev + 1);
   }
 
-  const openModal = () => {
+  const openModal = (selectImage) => {
     setSelectImage(selectImage);
     setModalIsOpen(true);
   }
@@ -72,7 +72,7 @@ function App() {
       <ImageModal
         isOpen={modalIsOpen}
         closeModal={closeModal}
-        image={image}
+        image={selectImage}
       />
     </>
   )

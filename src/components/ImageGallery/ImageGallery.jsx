@@ -14,26 +14,6 @@ const ImageGallery = ({ images, openModal }) => {
     );
 };
 
-// const ImageGallery = ({ images, openModal }) => {
-//     const clickImage = (e) => {
-//     const imageId = e.target.id;
-//     const findImage = images.find(image => image.id === imageId);
-    
-//     if (findImage) {
-//     openModal(findImage);
-//     }
-// };
-
-//     return (
-//         <ul className={s.listCard} onClick={clickImage}>
-//             {images.map(data => (
-//                 <li className={s.list} key={data.id} data-id={data.id}>
-//                     <ImageCard data={data} />
-//                 </li>
-//             ))}
-//         </ul>
-//     );
-// };
 
 export default ImageGallery;
 
