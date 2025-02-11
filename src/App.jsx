@@ -6,6 +6,7 @@ import './App.css'
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
+import { Toaster } from 'react-hot-toast';
 
 
 // import axios from "axios";
@@ -52,6 +53,7 @@ function App() {
   return (
     <>
       <SearchBar setQuery={handleSetQuery} />
+      <Toaster position="bottom-right"/>
       {error && <ErrorMessage/>}
       <ImageGallery images={image} />
       {loading && <Loader />}
